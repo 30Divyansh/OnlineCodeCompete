@@ -1,0 +1,813 @@
+[
+  {
+    "id": "a858e0bb-6602-4d26-bfd3-1512c84d1716",
+    "roomCode": "BOT-5480",
+    "status": "selection",
+    "problemId": null,
+    "durationSeconds": 900,
+    "startedAt": null,
+    "endedAt": null,
+    "player1": {
+      "userId": "user_alex",
+      "username": "AlexCode",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=AlexCode",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": null
+    },
+    "player2": {
+      "userId": "bot_codeduel",
+      "username": "CodeDuel Bot",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=BotCompetitor",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Ready",
+      "ready": false,
+      "selectedProblemId": null
+    },
+    "winnerUserId": null,
+    "winnerUsername": null,
+    "tie": false,
+    "tieBreakerReason": "",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:07:23.271Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:07:23.762Z",
+        "username": "CodeDuel Bot",
+        "message": "CodeDuel Bot has joined the duel room.",
+        "type": "info"
+      }
+    ],
+    "createdAt": "2026-11-16T13:07:23.269Z"
+  },
+  {
+    "id": "b8dfe0d0-48c6-4eb2-93ee-c3de4d4b7aed",
+    "roomCode": "DUEL-1178",
+    "status": "completed",
+    "problemId": "kadanes-algorithm",
+    "durationSeconds": 900,
+    "startedAt": "2026-11-16T13:08:11.711Z",
+    "endedAt": "2026-11-16T13:12:12.315Z",
+    "player1": {
+      "userId": "user_alex",
+      "username": "AlexCode",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=AlexCode",
+      "score": 128,
+      "passedTestCases": 8,
+      "totalTestCases": 8,
+      "executionTimeMs": 0.07,
+      "memoryKb": 0.51,
+      "submissionCount": 2,
+      "verdict": "Accepted",
+      "ready": true,
+      "selectedProblemId": "kadanes-algorithm"
+    },
+    "player2": {
+      "userId": "bot_codeduel",
+      "username": "CodeDuel Bot",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=BotCompetitor",
+      "score": 130,
+      "passedTestCases": 8,
+      "totalTestCases": 8,
+      "executionTimeMs": 0.03,
+      "memoryKb": 0.59,
+      "submissionCount": 1,
+      "verdict": "Accepted",
+      "ready": true,
+      "selectedProblemId": "kadanes-algorithm"
+    },
+    "winnerUserId": "bot_codeduel",
+    "winnerUsername": "CodeDuel Bot",
+    "tie": false,
+    "tieBreakerReason": "CodeDuel Bot scored higher (130 vs 128 pts)",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:07:28.334Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:07:46.797Z",
+        "username": "AlexCode",
+        "message": "AlexCode selected \"Kadane's Algorithm – Maximum Subarray Sum\".",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:08:00.522Z",
+        "username": "CodeDuel Bot",
+        "message": "CodeDuel Bot has joined the duel room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:08:06.626Z",
+        "username": "AlexCode",
+        "message": "AlexCode is ready to battle!",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:08:11.711Z",
+        "username": "System",
+        "message": "The competition has officially started! Good luck!",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T13:08:11.721Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:08:28.009Z",
+        "username": "CodeDuel Bot",
+        "message": "CodeDuel Bot submitted solution: Accepted (8/8 passed, +130 pts)",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T13:09:36.683Z",
+        "username": "AlexCode",
+        "message": "AlexCode tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:09:43.746Z",
+        "username": "AlexCode",
+        "message": "AlexCode tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:09:59.763Z",
+        "username": "AlexCode",
+        "message": "AlexCode tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:10:03.411Z",
+        "username": "AlexCode",
+        "message": "AlexCode tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:10:09.238Z",
+        "username": "AlexCode",
+        "message": "AlexCode tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:10:16.057Z",
+        "username": "AlexCode",
+        "message": "AlexCode submitted: Runtime Error (0/8 test cases passed, +0 pts)",
+        "type": "warning"
+      },
+      {
+        "timestamp": "2026-11-16T13:11:52.310Z",
+        "username": "AlexCode",
+        "message": "AlexCode tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:11:55.392Z",
+        "username": "AlexCode",
+        "message": "AlexCode tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:12:09.293Z",
+        "username": "AlexCode",
+        "message": "AlexCode tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:12:12.312Z",
+        "username": "AlexCode",
+        "message": "AlexCode submitted: Accepted (8/8 test cases passed, +128 pts)",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T13:12:12.316Z",
+        "username": "System",
+        "message": "Competition concluded! CodeDuel Bot scored higher (130 vs 128 pts)",
+        "type": "success"
+      }
+    ],
+    "createdAt": "2026-11-16T13:07:28.333Z"
+  },
+  {
+    "id": "bba5a4fc-6714-46be-964a-e6d5fc77d55c",
+    "roomCode": "DUEL-5269",
+    "status": "selection",
+    "problemId": null,
+    "durationSeconds": 900,
+    "startedAt": null,
+    "endedAt": null,
+    "player1": {
+      "userId": "user_alex",
+      "username": "AlexCode",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=AlexCode",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": "maximum-product-subarray"
+    },
+    "player2": {
+      "userId": "user_sarah",
+      "username": "SarahDev",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=SarahDev",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": null
+    },
+    "winnerUserId": null,
+    "winnerUsername": null,
+    "tie": false,
+    "tieBreakerReason": "",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:12:20.270Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:12:34.993Z",
+        "username": "AlexCode",
+        "message": "AlexCode selected \"Maximum Product Subarray\".",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:12:59.979Z",
+        "username": "SarahDev",
+        "message": "SarahDev entered the room.",
+        "type": "info"
+      }
+    ],
+    "createdAt": "2026-11-16T13:12:20.264Z"
+  },
+  {
+    "id": "891f55c3-3da3-40d3-a269-c8776a2eb0ed",
+    "roomCode": "DUEL-7751",
+    "status": "selection",
+    "problemId": null,
+    "durationSeconds": 900,
+    "startedAt": null,
+    "endedAt": null,
+    "player1": {
+      "userId": "user_marcus",
+      "username": "MarcusB",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=MarcusB",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": "0-1-knapsack"
+    },
+    "player2": null,
+    "winnerUserId": null,
+    "winnerUsername": null,
+    "tie": false,
+    "tieBreakerReason": "",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:15:38.265Z",
+        "username": "MarcusB",
+        "message": "MarcusB entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:15:38.268Z",
+        "username": "MarcusB",
+        "message": "MarcusB entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:15:47.649Z",
+        "username": "MarcusB",
+        "message": "MarcusB selected \"0/1 Knapsack\".",
+        "type": "info"
+      }
+    ],
+    "createdAt": "2026-11-16T13:15:38.264Z"
+  },
+  {
+    "id": "068ad874-241b-453d-a743-68617f637d99",
+    "roomCode": "DUEL-7218",
+    "status": "selection",
+    "problemId": null,
+    "durationSeconds": 900,
+    "startedAt": null,
+    "endedAt": null,
+    "player1": {
+      "userId": "user_marcus",
+      "username": "MarcusB",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=MarcusB",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": "0-1-knapsack"
+    },
+    "player2": {
+      "userId": "user_alex",
+      "username": "AlexCode",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=AlexCode",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": null
+    },
+    "winnerUserId": null,
+    "winnerUsername": null,
+    "tie": false,
+    "tieBreakerReason": "",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:15:52.284Z",
+        "username": "MarcusB",
+        "message": "MarcusB entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:15:56.058Z",
+        "username": "MarcusB",
+        "message": "MarcusB selected \"0/1 Knapsack\".",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:11.308Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      }
+    ],
+    "createdAt": "2026-11-16T13:15:52.281Z"
+  },
+  {
+    "id": "68b0a6b6-006f-4e08-9d4a-ca3b7baf441c",
+    "roomCode": "DUEL-5194",
+    "status": "selection",
+    "problemId": null,
+    "durationSeconds": 900,
+    "startedAt": null,
+    "endedAt": null,
+    "player1": {
+      "userId": "user_marcus",
+      "username": "MarcusB",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=MarcusB",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": "0-1-knapsack"
+    },
+    "player2": {
+      "userId": "user_alex",
+      "username": "AlexCode",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=AlexCode",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": "kadanes-algorithm"
+    },
+    "winnerUserId": null,
+    "winnerUsername": null,
+    "tie": false,
+    "tieBreakerReason": "",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:16:06.327Z",
+        "username": "MarcusB",
+        "message": "MarcusB entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:16:11.350Z",
+        "username": "MarcusB",
+        "message": "MarcusB entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:16:48.250Z",
+        "username": "MarcusB",
+        "message": "MarcusB selected \"0/1 Knapsack\".",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:17:14.835Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:17:16.830Z",
+        "username": "AlexCode",
+        "message": "AlexCode selected \"Kadane's Algorithm – Maximum Subarray Sum\".",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:17:16.830Z",
+        "username": "System",
+        "message": "Selection mismatch: MarcusB picked \"0/1 Knapsack\" but AlexCode picked \"Kadane's Algorithm – Maximum Subarray Sum\". Both players must select the same problem!",
+        "type": "warning"
+      },
+      {
+        "timestamp": "2026-11-16T13:17:20.024Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:17:22.281Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:02.198Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      }
+    ],
+    "createdAt": "2026-11-16T13:16:06.325Z"
+  },
+  {
+    "id": "f2360a28-026b-49e1-9c44-11151d27a9fb",
+    "roomCode": "DUEL-6229",
+    "status": "selection",
+    "problemId": null,
+    "durationSeconds": 900,
+    "startedAt": null,
+    "endedAt": null,
+    "player1": {
+      "userId": "user_marcus",
+      "username": "MarcusB",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=MarcusB",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": null
+    },
+    "player2": {
+      "userId": "user_alex",
+      "username": "AlexCode",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=AlexCode",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": "kadanes-algorithm"
+    },
+    "winnerUserId": null,
+    "winnerUsername": null,
+    "tie": false,
+    "tieBreakerReason": "",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:16:15.772Z",
+        "username": "MarcusB",
+        "message": "MarcusB entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:16:39.403Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:17:06.479Z",
+        "username": "AlexCode",
+        "message": "AlexCode selected \"Kadane's Algorithm – Maximum Subarray Sum\".",
+        "type": "info"
+      }
+    ],
+    "createdAt": "2026-11-16T13:16:15.769Z"
+  },
+  {
+    "id": "f248f014-801e-4ed8-95c2-1eba4b0a9899",
+    "roomCode": "DUEL-6904",
+    "status": "matched",
+    "problemId": "kadanes-algorithm",
+    "durationSeconds": 900,
+    "startedAt": null,
+    "endedAt": null,
+    "player1": {
+      "userId": "user_alex",
+      "username": "AlexCode",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=AlexCode",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": "kadanes-algorithm"
+    },
+    "player2": {
+      "userId": "bot_codeduel",
+      "username": "CodeDuel Bot",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=BotCompetitor",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Ready",
+      "ready": true,
+      "selectedProblemId": "kadanes-algorithm"
+    },
+    "winnerUserId": null,
+    "winnerUsername": null,
+    "tie": false,
+    "tieBreakerReason": "",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:17:30.928Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:17:37.706Z",
+        "username": "AlexCode",
+        "message": "AlexCode selected \"Kadane's Algorithm – Maximum Subarray Sum\".",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:00.151Z",
+        "username": "CodeDuel Bot",
+        "message": "CodeDuel Bot has joined the duel room.",
+        "type": "info"
+      }
+    ],
+    "createdAt": "2026-11-16T13:17:30.927Z"
+  },
+  {
+    "id": "d4b3d3ff-d54d-475a-b7cd-498007580543",
+    "roomCode": "DUEL-5087",
+    "status": "selection",
+    "problemId": null,
+    "durationSeconds": 900,
+    "startedAt": null,
+    "endedAt": null,
+    "player1": {
+      "userId": "user_alex",
+      "username": "AlexCode",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=AlexCode",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": null
+    },
+    "player2": {
+      "userId": "user_sarah",
+      "username": "SarahDev",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=SarahDev",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": "kadanes-algorithm"
+    },
+    "winnerUserId": null,
+    "winnerUsername": null,
+    "tie": false,
+    "tieBreakerReason": "",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:17:45.115Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:17:49.491Z",
+        "username": "SarahDev",
+        "message": "SarahDev entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:17:52.924Z",
+        "username": "SarahDev",
+        "message": "SarahDev selected \"Kadane's Algorithm – Maximum Subarray Sum\".",
+        "type": "info"
+      }
+    ],
+    "createdAt": "2026-11-16T13:17:45.112Z"
+  },
+  {
+    "id": "368a4a2e-72c9-4680-a25c-daff2b11736c",
+    "roomCode": "DUEL-4549",
+    "status": "completed",
+    "problemId": "kadanes-algorithm",
+    "durationSeconds": 900,
+    "startedAt": "2026-11-16T13:18:49.575Z",
+    "endedAt": "2026-11-16T13:19:23.757Z",
+    "player1": {
+      "userId": "user_alex",
+      "username": "AlexCode",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=AlexCode",
+      "score": 130,
+      "passedTestCases": 8,
+      "totalTestCases": 8,
+      "executionTimeMs": 0.01,
+      "memoryKb": 0.51,
+      "submissionCount": 1,
+      "verdict": "Accepted",
+      "ready": true,
+      "selectedProblemId": "kadanes-algorithm"
+    },
+    "player2": {
+      "userId": "user_sarah",
+      "username": "SarahDev",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=SarahDev",
+      "score": 130,
+      "passedTestCases": 8,
+      "totalTestCases": 8,
+      "executionTimeMs": 0.03,
+      "memoryKb": 0.51,
+      "submissionCount": 1,
+      "verdict": "Accepted",
+      "ready": true,
+      "selectedProblemId": "kadanes-algorithm"
+    },
+    "winnerUserId": "user_alex",
+    "winnerUsername": "AlexCode",
+    "tie": false,
+    "tieBreakerReason": "Tie-breaker! Both solved correctly, but AlexCode executed faster (0.01ms vs 0.03ms)",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:18:13.923Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:27.355Z",
+        "username": "SarahDev",
+        "message": "SarahDev entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:33.967Z",
+        "username": "AlexCode",
+        "message": "AlexCode selected \"Kadane's Algorithm – Maximum Subarray Sum\".",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:37.797Z",
+        "username": "SarahDev",
+        "message": "SarahDev selected \"Kadane's Algorithm – Maximum Subarray Sum\".",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:37.797Z",
+        "username": "System",
+        "message": "Both players agreed on \"Kadane's Algorithm – Maximum Subarray Sum\"! Ready to confirm.",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:40.245Z",
+        "username": "AlexCode",
+        "message": "AlexCode is ready to battle!",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:42.648Z",
+        "username": "SarahDev",
+        "message": "SarahDev is ready to battle!",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:47.795Z",
+        "username": "System",
+        "message": "The competition has officially started! Good luck!",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:47.819Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:47.827Z",
+        "username": "AlexCode",
+        "message": "AlexCode entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:47.834Z",
+        "username": "SarahDev",
+        "message": "SarahDev entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:47.839Z",
+        "username": "SarahDev",
+        "message": "SarahDev entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:18:49.575Z",
+        "username": "System",
+        "message": "The competition has officially started! Good luck!",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T13:19:14.742Z",
+        "username": "AlexCode",
+        "message": "AlexCode tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:19:18.252Z",
+        "username": "AlexCode",
+        "message": "AlexCode submitted: Accepted (8/8 test cases passed, +130 pts)",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T13:19:23.754Z",
+        "username": "SarahDev",
+        "message": "SarahDev submitted: Accepted (8/8 test cases passed, +130 pts)",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T13:19:23.757Z",
+        "username": "System",
+        "message": "Competition concluded! Tie-breaker! Both solved correctly, but AlexCode executed faster (0.01ms vs 0.03ms)",
+        "type": "success"
+      }
+    ],
+    "createdAt": "2026-11-16T13:18:13.921Z"
+  }
+]

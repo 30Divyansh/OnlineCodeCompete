@@ -1,0 +1,381 @@
+[
+  {
+    "id": "1465bc8d-9f7c-4a34-9471-10f2b1dd25c3",
+    "competitionId": "DUEL-1178",
+    "problemId": "kadanes-algorithm",
+    "problemTitle": "Kadane's Algorithm – Maximum Subarray Sum",
+    "userId": "user_alex",
+    "username": "AlexCode",
+    "code": "def maxSubArray(nums: list[int]) -> int:\n    # Write your code here\n    sum =0\n    maxi = float(\"-inf\")\n    for i in range(len(arr)):\n        sum+=arr[i]\n        maxi = max(maxi,sum)\n        if(sum<0):\n            sum=0\n    return maxi\n    pass\n",
+    "language": "python",
+    "verdict": "Runtime Error",
+    "passedTestCases": 0,
+    "totalTestCases": 8,
+    "executionTimeMs": 0.34,
+    "memoryKb": 43.24,
+    "score": 0,
+    "scoreBreakdown": {
+      "baseScore": 0,
+      "speedBonus": 0,
+      "memoryBonus": 0,
+      "penalty": 0
+    },
+    "errorMessage": null,
+    "results": [
+      {
+        "testCaseIndex": 1,
+        "hidden": false,
+        "passed": false,
+        "error": "Traceback (most recent call last):\n  File \"E:\\new online\\server\\scratch\\eval_d6461d72-be70-474d-a12a-87c970ac5d26.py\", line 95, in <module>\n    actual = target_fn(*args)\n  File \"<string>\", line 5, in maxSubArray\nNameError: name 'arr' is not defined\n",
+        "timeMs": 0.34,
+        "memoryKb": 43.24
+      }
+    ],
+    "createdAt": "2026-11-16T13:10:16.053Z"
+  },
+  {
+    "id": "a3e9765d-2278-40fc-a532-838d882a9385",
+    "competitionId": "DUEL-1178",
+    "problemId": "kadanes-algorithm",
+    "problemTitle": "Kadane's Algorithm – Maximum Subarray Sum",
+    "userId": "user_alex",
+    "username": "AlexCode",
+    "code": "def maxSubArray(nums: list[int]) -> int:\n    curr_sum = 0\n    maxi = float(\"-inf\")\n\n    for i in range(len(nums)):\n        curr_sum += nums[i]\n\n        maxi = max(maxi, curr_sum)\n\n        if curr_sum < 0:\n            curr_sum = 0\n\n    return maxi",
+    "language": "python",
+    "verdict": "Accepted",
+    "passedTestCases": 8,
+    "totalTestCases": 8,
+    "executionTimeMs": 0.07,
+    "memoryKb": 0.51,
+    "score": 128,
+    "scoreBreakdown": {
+      "baseScore": 100,
+      "speedBonus": 20,
+      "memoryBonus": 10,
+      "penalty": 2
+    },
+    "errorMessage": null,
+    "results": [
+      {
+        "testCaseIndex": 1,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0.01,
+        "memoryKb": 0.51,
+        "input": [
+          [
+            -2,
+            1,
+            -3,
+            4,
+            -1,
+            2,
+            1,
+            -5,
+            4
+          ]
+        ],
+        "expected": 6,
+        "actual": 6
+      },
+      {
+        "testCaseIndex": 2,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0.06,
+        "memoryKb": 0.08,
+        "input": [
+          [
+            1
+          ]
+        ],
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "testCaseIndex": 3,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08,
+        "input": [
+          [
+            5,
+            4,
+            -1,
+            7,
+            8
+          ]
+        ],
+        "expected": 23,
+        "actual": 23
+      },
+      {
+        "testCaseIndex": 4,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08
+      },
+      {
+        "testCaseIndex": 5,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.11
+      },
+      {
+        "testCaseIndex": 6,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08
+      },
+      {
+        "testCaseIndex": 7,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08
+      },
+      {
+        "testCaseIndex": 8,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08
+      }
+    ],
+    "createdAt": "2026-11-16T13:12:12.307Z"
+  },
+  {
+    "id": "d6e0ca16-fe20-4f16-bf67-20f954945e55",
+    "competitionId": "DUEL-4549",
+    "problemId": "kadanes-algorithm",
+    "problemTitle": "Kadane's Algorithm – Maximum Subarray Sum",
+    "userId": "user_alex",
+    "username": "AlexCode",
+    "code": "def maxSubArray(nums: list[int]) -> int:\n    curr_sum = 0\n    maxi = float(\"-inf\")\n\n    for i in range(len(nums)):\n        curr_sum += nums[i]\n        maxi = max(maxi, curr_sum)\n\n        if curr_sum < 0:\n            curr_sum = 0\n\n    return maxi",
+    "language": "python",
+    "verdict": "Accepted",
+    "passedTestCases": 8,
+    "totalTestCases": 8,
+    "executionTimeMs": 0.01,
+    "memoryKb": 0.51,
+    "score": 130,
+    "scoreBreakdown": {
+      "baseScore": 100,
+      "speedBonus": 20,
+      "memoryBonus": 10,
+      "penalty": 0
+    },
+    "errorMessage": null,
+    "results": [
+      {
+        "testCaseIndex": 1,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0.01,
+        "memoryKb": 0.51,
+        "input": [
+          [
+            -2,
+            1,
+            -3,
+            4,
+            -1,
+            2,
+            1,
+            -5,
+            4
+          ]
+        ],
+        "expected": 6,
+        "actual": 6
+      },
+      {
+        "testCaseIndex": 2,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08,
+        "input": [
+          [
+            1
+          ]
+        ],
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "testCaseIndex": 3,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08,
+        "input": [
+          [
+            5,
+            4,
+            -1,
+            7,
+            8
+          ]
+        ],
+        "expected": 23,
+        "actual": 23
+      },
+      {
+        "testCaseIndex": 4,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08
+      },
+      {
+        "testCaseIndex": 5,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.11
+      },
+      {
+        "testCaseIndex": 6,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08
+      },
+      {
+        "testCaseIndex": 7,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08
+      },
+      {
+        "testCaseIndex": 8,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08
+      }
+    ],
+    "createdAt": "2026-11-16T13:19:18.247Z"
+  },
+  {
+    "id": "a7385067-d855-476b-ba7b-88d46021301e",
+    "competitionId": "DUEL-4549",
+    "problemId": "kadanes-algorithm",
+    "problemTitle": "Kadane's Algorithm – Maximum Subarray Sum",
+    "userId": "user_sarah",
+    "username": "SarahDev",
+    "code": "def maxSubArray(nums: list[int]) -> int:\n    curr_sum = 0\n    maxi = float(\"-inf\")\n\n    for i in range(len(nums)):\n        curr_sum += nums[i]\n        maxi = max(maxi, curr_sum)\n\n        if curr_sum < 0:\n            curr_sum = 0\n\n    return maxi",
+    "language": "python",
+    "verdict": "Accepted",
+    "passedTestCases": 8,
+    "totalTestCases": 8,
+    "executionTimeMs": 0.03,
+    "memoryKb": 0.51,
+    "score": 130,
+    "scoreBreakdown": {
+      "baseScore": 100,
+      "speedBonus": 20,
+      "memoryBonus": 10,
+      "penalty": 0
+    },
+    "errorMessage": null,
+    "results": [
+      {
+        "testCaseIndex": 1,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0.02,
+        "memoryKb": 0.51,
+        "input": [
+          [
+            -2,
+            1,
+            -3,
+            4,
+            -1,
+            2,
+            1,
+            -5,
+            4
+          ]
+        ],
+        "expected": 6,
+        "actual": 6
+      },
+      {
+        "testCaseIndex": 2,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08,
+        "input": [
+          [
+            1
+          ]
+        ],
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "testCaseIndex": 3,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08,
+        "input": [
+          [
+            5,
+            4,
+            -1,
+            7,
+            8
+          ]
+        ],
+        "expected": 23,
+        "actual": 23
+      },
+      {
+        "testCaseIndex": 4,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08
+      },
+      {
+        "testCaseIndex": 5,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.11
+      },
+      {
+        "testCaseIndex": 6,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08
+      },
+      {
+        "testCaseIndex": 7,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.08
+      },
+      {
+        "testCaseIndex": 8,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0.01,
+        "memoryKb": 0.08
+      }
+    ],
+    "createdAt": "2026-11-16T13:19:23.745Z"
+  }
+]

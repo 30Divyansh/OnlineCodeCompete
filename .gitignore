@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Production build
+dist/
+client/dist/
+
+# Scratch & temporary execution files
+server/scratch/
+*.pyc
+__pycache__/
+
+# Logs & Environment
+*.log
+.env
+.DS_Store
+
+# Editor files
+.vscode/
+.idea/
