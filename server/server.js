@@ -10,6 +10,7 @@ const problemsRouter = require('./routes/problems');
 const submissionsRouter = require('./routes/submissions');
 const competitionsRouter = require('./routes/competitions');
 const usersRouter = require('./routes/users');
+const lobbyRouter = require('./routes/lobby');
 const { setupDuelSocket } = require('./socket/duelSocketHandler');
 const { scoringConfig } = require('./services/scoringEngine');
 
@@ -49,6 +50,7 @@ app.use('/api/problems', problemsRouter);
 app.use('/api/submissions', submissionsRouter);
 app.use('/api/competitions', competitionsRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/lobby', lobbyRouter);
 
 // Scoring configuration API
 app.get('/api/scoring/config', (req, res) => {

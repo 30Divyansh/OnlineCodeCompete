@@ -2,12 +2,163 @@ const { getOrCreateRoom, updateRoom, addActivity } = require('../services/duelMa
 const dbStore = require('../services/dbStore');
 const { determineDuelWinner } = require('../services/scoringEngine');
 const { runPythonCode } = require('../services/pythonRunner');
+const presence = require('../services/presenceManager');
 
 function setupDuelSocket(io) {
-  io.on('connection', (socket) => {
-    // console.log(`Socket connected: ${socket.id}`);
+  // Broadcast lobby update helper
+  const broadcastLobby = () => {
+    io.emit('lobby_update', {
+      users: presence.getOnlineUsersList(),
+      stats: presence.getLobbyStats()
+    });
+  };
 
-    // Join room
+  io.on('connection', (socket) => {
+    // ----------------------------------------------------
+    // Presence & Live Lobby Handshake
+    // ----------------------------------------------------
+    socket.on('register_presence', ({ user }) => {
+      if (!user || !user.id) return;
+      socket.data.user = user;
+      presence.registerUser(socket.id, user);
+      broadcastLobby();
+    });
+
+    socket.on('get_lobby_state', () => {
+      socket.emit('lobby_update', {
+        users: presence.getOnlineUsersList(),
+        stats: presence.getLobbyStats()
+      });
+    });
+
+    // ----------------------------------------------------
+    // Challenge / Invitation System
+    // ----------------------------------------------------
+    socket.on('send_challenge', ({ toUserId }) => {
+      const fromUser = socket.data.user;
+      if (!fromUser) {
+        return socket.emit('challenge_error', { message: 'Must be logged in to challenge.' });
+      }
+
+      const res = presence.createChallenge(fromUser, toUserId);
+      if (!res.success) {
+        return socket.emit('challenge_error', { message: res.message });
+      }
+
+      const invite = res.invite;
+      socket.emit('challenge_sent_success', { invite });
+
+      // Check if target is a real connected socket
+      const targetEntry = presence.onlineUsers.get(toUserId);
+      if (targetEntry && targetEntry.socketId) {
+        io.to(targetEntry.socketId).emit('challenge_received', {
+          inviteId: invite.id,
+          challenger: invite.fromUser,
+          expiresInSeconds: 30
+        });
+      } else {
+        // Target is a simulated live bot (e.g. ZenithCoder, MarcusB)
+        // Auto-accept after 2.5 seconds to provide instant testability
+        setTimeout(() => {
+          const roomCode = 'DUEL-' + Math.floor(1000 + Math.random() * 9000);
+          presence.resolveInvitation(invite.id, 'accepted');
+          presence.setUserStatus(fromUser.id, 'in_competition', roomCode);
+
+          socket.emit('challenge_accepted', {
+            roomCode,
+            opponent: invite.toUser
+          });
+
+          broadcastLobby();
+        }, 2200);
+      }
+    });
+
+    // Accept or decline challenge
+    socket.on('respond_challenge', ({ inviteId, accept }) => {
+      const currentUser = socket.data.user;
+      if (!currentUser) return;
+
+      const invite = presence.getInvitation(inviteId);
+      if (!invite || invite.toUserId !== currentUser.id) {
+        return socket.emit('challenge_error', { message: 'Invitation no longer valid.' });
+      }
+
+      if (accept) {
+        presence.resolveInvitation(inviteId, 'accepted');
+        const roomCode = 'DUEL-' + Math.floor(1000 + Math.random() * 9000);
+
+        // Update status for both players
+        presence.setUserStatus(invite.fromUser.id, 'in_competition', roomCode);
+        presence.setUserStatus(currentUser.id, 'in_competition', roomCode);
+
+        // Pre-initialize duel room with Player 1 and Player 2
+        const room = getOrCreateRoom(roomCode, {
+          userId: invite.fromUser.id,
+          username: invite.fromUser.username,
+          avatar: invite.fromUser.avatar
+        });
+        room.player2 = {
+          userId: currentUser.id,
+          username: currentUser.username,
+          avatar: currentUser.avatar,
+          score: 0,
+          passedTestCases: 0,
+          totalTestCases: 0,
+          executionTimeMs: 0,
+          memoryKb: 0,
+          submissionCount: 0,
+          verdict: 'Selecting',
+          ready: false,
+          selectedProblemId: null
+        };
+        updateRoom(room);
+
+        // Notify challenger
+        const challengerEntry = presence.onlineUsers.get(invite.fromUser.id);
+        if (challengerEntry?.socketId) {
+          io.to(challengerEntry.socketId).emit('challenge_accepted', {
+            roomCode,
+            opponent: currentUser
+          });
+        }
+
+        // Notify accepting player
+        socket.emit('challenge_accepted', {
+          roomCode,
+          opponent: invite.fromUser
+        });
+
+        broadcastLobby();
+      } else {
+        // Declined
+        presence.resolveInvitation(inviteId, 'declined');
+
+        const challengerEntry = presence.onlineUsers.get(invite.fromUser.id);
+        if (challengerEntry?.socketId) {
+          io.to(challengerEntry.socketId).emit('challenge_declined', {
+            opponentName: currentUser.username,
+            message: `${currentUser.username} declined the challenge.`
+          });
+        }
+      }
+    });
+
+    // Cancel challenge
+    socket.on('cancel_challenge', ({ inviteId }) => {
+      const invite = presence.getInvitation(inviteId);
+      if (invite) {
+        presence.resolveInvitation(inviteId, 'expired');
+        const targetEntry = presence.onlineUsers.get(invite.toUserId);
+        if (targetEntry?.socketId) {
+          io.to(targetEntry.socketId).emit('challenge_cancelled', { inviteId });
+        }
+      }
+    });
+
+    // ----------------------------------------------------
+    // Competition Room Handlers
+    // ----------------------------------------------------
     socket.on('join_room', ({ roomCode, user }) => {
       if (!roomCode || !user) return;
       socket.join(roomCode);
@@ -15,6 +166,7 @@ function setupDuelSocket(io) {
       socket.data.user = user;
 
       const room = getOrCreateRoom(roomCode);
+      presence.setUserStatus(user.id, 'in_competition', roomCode);
 
       // Assign player 1 or player 2
       if (!room.player1 || room.player1.userId === user.id) {
@@ -53,6 +205,7 @@ function setupDuelSocket(io) {
       updateRoom(room);
 
       io.to(roomCode).emit('room_state', room);
+      broadcastLobby();
     });
 
     // Select problem
@@ -74,20 +227,17 @@ function setupDuelSocket(io) {
         addActivity(room, room.player2.username, `${room.player2.username} selected "${problemTitle}".`);
       }
 
-      // Check matchmaking condition
       const p1Selected = room.player1?.selectedProblemId;
       const p2Selected = room.player2?.selectedProblemId;
 
       if (p1Selected && p2Selected) {
         if (p1Selected === p2Selected) {
-          // Exact match!
           room.status = 'matched';
           room.problemId = p1Selected;
           room.player1.ready = false;
           room.player2.ready = false;
           addActivity(room, 'System', `Both players agreed on "${problemTitle}"! Ready to confirm.`, 'success');
         } else {
-          // Mismatch!
           room.status = 'selection';
           room.problemId = null;
           room.player1.ready = false;
@@ -121,7 +271,6 @@ function setupDuelSocket(io) {
       updateRoom(room);
       io.to(roomCode).emit('room_state', room);
 
-      // If both ready, notify frontend that Start Competition can begin
       if (room.player1?.ready && room.player2?.ready) {
         io.to(roomCode).emit('ready_for_start', {
           problemId: room.problemId
@@ -143,10 +292,13 @@ function setupDuelSocket(io) {
       updateRoom(room);
 
       io.to(roomCode).emit('competition_started', room);
+      broadcastLobby();
 
-      // Start Bot simulation if player2 is a bot
-      if (room.player2?.userId === 'bot_codeduel') {
-        runBotBehavior(io, room);
+      if (room.player2?.userId === 'bot_codeduel' || room.player2?.userId?.startsWith('user_')) {
+        // If simulated bot, trigger bot coder
+        if (room.player2?.userId?.startsWith('user_') && room.player2?.userId !== socket.data.user?.id) {
+          runBotBehavior(io, room);
+        }
       }
     });
 
@@ -168,7 +320,6 @@ function setupDuelSocket(io) {
         selectedProblemId: null
       };
 
-      // If player1 already selected a problem, Bot agrees and confirms
       if (room.player1?.selectedProblemId) {
         room.player2.selectedProblemId = room.player1.selectedProblemId;
         room.status = 'matched';
@@ -181,7 +332,7 @@ function setupDuelSocket(io) {
       io.to(roomCode).emit('room_state', room);
     });
 
-    // Live Run Code activity notification (code is not sent to opponent)
+    // Live Run Code activity notification
     socket.on('run_code_activity', ({ roomCode, userId }) => {
       const room = getOrCreateRoom(roomCode);
       const isP1 = room.player1?.userId === userId;
@@ -214,7 +365,6 @@ function setupDuelSocket(io) {
       targetPlayer.executionTimeMs = result.executionTimeMs;
       targetPlayer.memoryKb = result.memoryKb;
       targetPlayer.verdict = result.verdict;
-      // Retain maximum score achieved
       if (result.score > targetPlayer.score) {
         targetPlayer.score = result.score;
       }
@@ -227,7 +377,6 @@ function setupDuelSocket(io) {
         msgType
       );
 
-      // Notify opponent
       socket.to(roomCode).emit('opponent_action', {
         action: 'submit_code',
         username: targetPlayer.username,
@@ -240,7 +389,6 @@ function setupDuelSocket(io) {
       updateRoom(room);
       io.to(roomCode).emit('room_state', room);
 
-      // Check if both players have achieved Accepted
       if (room.player1.verdict === 'Accepted' && room.player2?.verdict === 'Accepted') {
         endCompetition(io, room);
       }
@@ -252,8 +400,10 @@ function setupDuelSocket(io) {
       endCompetition(io, room);
     });
 
+    // Disconnect cleanup
     socket.on('disconnect', () => {
-      // socket disconnected
+      presence.unregisterSocket(socket.id);
+      broadcastLobby();
     });
   });
 }
@@ -273,10 +423,17 @@ function endCompetition(io, room) {
   addActivity(room, 'System', `Competition concluded! ${outcome.reason}`, 'success');
   updateRoom(room);
 
-  // Update user statistics in dbStore
+  // Set players back to available in lobby
+  if (room.player1?.userId) presence.setUserStatus(room.player1.userId, 'available');
+  if (room.player2?.userId) presence.setUserStatus(room.player2.userId, 'available');
+
   updateUserStats(room);
 
   io.to(room.roomCode).emit('competition_ended', room);
+  io.emit('lobby_update', {
+    users: presence.getOnlineUsersList(),
+    stats: presence.getLobbyStats()
+  });
 }
 
 function updateUserStats(room) {
@@ -318,9 +475,7 @@ function updateUserStats(room) {
   });
 }
 
-// Bot simulation behavior during duel
 function runBotBehavior(io, room) {
-  // Bot submits code after 15 to 25 seconds
   const delayMs = Math.floor(Math.random() * 8000) + 14000;
 
   setTimeout(async () => {
@@ -331,7 +486,6 @@ function runBotBehavior(io, room) {
     const problem = problems.find(p => p.id === curRoom.problemId);
     if (!problem) return;
 
-    // Run bot's reference solution
     const allTestCases = [...problem.sampleTestCases, ...(problem.hiddenTestCases || []).map(tc => ({ ...tc, hidden: true }))];
     const execRes = await runPythonCode({
       userCode: problem.solutionCode,
@@ -359,15 +513,14 @@ function runBotBehavior(io, room) {
 
     addActivity(
       curRoom,
-      'CodeDuel Bot',
-      `CodeDuel Bot submitted solution: ${execRes.verdict} (${execRes.passedTestCases}/${execRes.totalTestCases} passed, +${scoreData.totalScore} pts)`,
+      curRoom.player2.username,
+      `${curRoom.player2.username} submitted solution: ${execRes.verdict} (${execRes.passedTestCases}/${execRes.totalTestCases} passed, +${scoreData.totalScore} pts)`,
       'success'
     );
 
     updateRoom(curRoom);
     io.to(curRoom.roomCode).emit('room_state', curRoom);
 
-    // If player 1 is also accepted, end competition
     if (curRoom.player1.verdict === 'Accepted') {
       endCompetition(io, curRoom);
     }

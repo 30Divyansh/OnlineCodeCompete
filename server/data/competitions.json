@@ -809,5 +809,48 @@
       }
     ],
     "createdAt": "2026-11-16T13:18:13.921Z"
+  },
+  {
+    "id": "8d8c3b74-3ec0-4baf-80e9-e70015ca34dd",
+    "roomCode": "DUEL-1853",
+    "status": "selection",
+    "problemId": null,
+    "durationSeconds": 900,
+    "startedAt": null,
+    "endedAt": null,
+    "player1": {
+      "userId": "user_sarah",
+      "username": "SarahDev",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=SarahDev",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": null
+    },
+    "player2": null,
+    "winnerUserId": null,
+    "winnerUsername": null,
+    "tie": false,
+    "tieBreakerReason": "",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:38:08.235Z",
+        "username": "SarahDev",
+        "message": "SarahDev entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:38:08.240Z",
+        "username": "SarahDev",
+        "message": "SarahDev entered the room.",
+        "type": "info"
+      }
+    ],
+    "createdAt": "2026-11-16T13:38:08.233Z"
   }
 ]

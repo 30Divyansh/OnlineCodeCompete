@@ -12,7 +12,8 @@ import {
   Flame, 
   Layers, 
   ChevronDown,
-  UserCheck
+  UserCheck,
+  Users
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -24,6 +25,11 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', path: '/' },
+    { 
+      name: 'Live Players', 
+      path: '/live',
+      badge: true 
+    },
     { name: 'Competitions', path: '/competitions' },
     { name: 'Problem Library', path: '/problems' },
     { name: 'Leaderboard', path: '/leaderboard' },
@@ -31,7 +37,6 @@ export default function Navbar() {
   ];
 
   const handleStartDuel = () => {
-    // Generate fresh room code and navigate to matchmaking
     const randomCode = 'DUEL-' + Math.floor(1000 + Math.random() * 9000);
     navigate(`/matchmaking/${randomCode}`);
   };
@@ -82,7 +87,7 @@ export default function Navbar() {
           </Link>
 
           {/* Navigation Items */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
             {navLinks.map((item) => {
               const isActive = location.pathname === item.path || 
                 (item.path.startsWith('/profile') && location.pathname.startsWith('/profile'));
@@ -91,14 +96,26 @@ export default function Navbar() {
                   key={item.name}
                   to={item.path}
                   style={{
-                    padding: '0.4rem 0.8rem',
-                    fontSize: '0.875rem',
+                    padding: '0.4rem 0.75rem',
+                    fontSize: '0.85rem',
                     fontWeight: isActive ? 600 : 500,
                     color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                     borderBottom: isActive ? '2px solid var(--accent-primary)' : '2px solid transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
                     transition: 'all 0.15s ease'
                   }}
                 >
+                  {item.badge && (
+                    <span style={{
+                      width: '7px',
+                      height: '7px',
+                      borderRadius: '50%',
+                      background: 'var(--color-easy)',
+                      display: 'inline-block'
+                    }} />
+                  )}
                   {item.name}
                 </Link>
               );

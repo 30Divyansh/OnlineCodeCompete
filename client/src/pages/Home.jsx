@@ -93,7 +93,7 @@ export default function Home() {
             marginBottom: '2.5rem',
             lineHeight: 1.6
           }}>
-            Select a problem from the standard 30-problem library. Once both competitors independently choose the same problem and confirm, race simultaneously to write, test, and submit your Python solution.
+            Browse live online programmers in the multiplayer lobby, challenge any available player, align on a problem from the 30 standard algorithmic library, and battle simultaneously in Python 3, C++, JavaScript, or Java.
           </p>
 
           {/* Action Box */}
@@ -105,22 +105,22 @@ export default function Home() {
             gap: '1rem',
             marginBottom: '2rem'
           }}>
+            <Link
+              to="/live"
+              className="btn btn-primary btn-lg"
+              style={{ minWidth: '200px' }}
+            >
+              <Users size={20} />
+              Find Live Opponents
+            </Link>
+
             <button
               onClick={handleCreateDuel}
-              className="btn btn-primary btn-lg"
+              className="btn btn-secondary btn-lg"
               style={{ minWidth: '180px' }}
             >
               <Swords size={20} />
               Create Duel Room
-            </button>
-
-            <button
-              onClick={handlePlayBot}
-              className="btn btn-secondary btn-lg"
-              style={{ minWidth: '180px' }}
-            >
-              <Bot size={20} />
-              Play vs CodeDuel Bot
             </button>
           </div>
 
@@ -168,7 +168,7 @@ export default function Home() {
             How CodeDuel Works
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
-            Dynamic problem selection guarantees fair, simultaneous, and head-to-head competition.
+            Live player discovery and dynamic question matching guarantee fair head-to-head competition.
           </p>
         </div>
 
@@ -195,10 +195,10 @@ export default function Home() {
               1
             </div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem' }}>
-              Independent Selection
+              Find Live Opponent
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.6 }}>
-              Both players browse all 30 algorithmic questions and independently pick a preferred challenge. No hardcoded order.
+              Browse the real-time online lobby. Select any available programmer and send a 30-second duel challenge.
             </p>
           </div>
 
@@ -220,10 +220,10 @@ export default function Home() {
               2
             </div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem' }}>
-              Match Alignment Check
+              Select Same Problem
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.6 }}>
-              If selections differ, players are notified to align. When both choose the same problem, both confirm to start simultaneously.
+              Both competitors independently pick a challenge from 30 standard algorithmic questions until matching.
             </p>
           </div>
 
@@ -248,7 +248,7 @@ export default function Home() {
               Live Coding Battle
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.6 }}>
-              Write your own custom Python 3 solution. Test with sample inputs. Real-time updates show opponent progress while keeping code hidden.
+              Write solutions in Python 3, C++, JavaScript, or Java. See live opponent test progress while keeping code hidden.
             </p>
           </div>
 
@@ -273,56 +273,8 @@ export default function Home() {
               Evaluation & Winner
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.6 }}>
-              Backend sandbox tests edge & hidden cases. Scores compare correctness, execution time (ms), and memory (KB) to declare the winner.
+              Backend sandbox tests all hidden test cases. Scores compare correctness, execution time (ms), and memory (KB) to declare the winner.
             </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Platform Features / Specs Grid */}
-      <div className="container" style={{ marginTop: '3.5rem' }}>
-        <div style={{
-          background: 'var(--bg-secondary)',
-          borderRadius: '10px',
-          border: '1px solid var(--border-color)',
-          padding: '2rem'
-        }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '2rem' }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-primary)', marginBottom: '0.5rem' }}>
-                <Code2 size={20} />
-                <span style={{ fontWeight: 700, fontSize: '1.5rem', color: 'var(--text-primary)' }}>30</span>
-              </div>
-              <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.25rem' }}>Standard Problems</div>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>Arrays, DP, Graphs, Trees, Greedy, Stacks</div>
-            </div>
-
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-easy)', marginBottom: '0.5rem' }}>
-                <Clock size={20} />
-                <span style={{ fontWeight: 700, fontSize: '1.5rem', color: 'var(--text-primary)' }}>&lt; 50ms</span>
-              </div>
-              <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.25rem' }}>Precision Timing</div>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>High-resolution time.perf_counter() metrics</div>
-            </div>
-
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-primary)', marginBottom: '0.5rem' }}>
-                <Cpu size={20} />
-                <span style={{ fontWeight: 700, fontSize: '1.5rem', color: 'var(--text-primary)' }}>Sandbox</span>
-              </div>
-              <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.25rem' }}>Safe Execution</div>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>Isolated Python 3 process runner with TLE safety</div>
-            </div>
-
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-medium)', marginBottom: '0.5rem' }}>
-                <Trophy size={20} />
-                <span style={{ fontWeight: 700, fontSize: '1.5rem', color: 'var(--text-primary)' }}>100+</span>
-              </div>
-              <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.25rem' }}>Dynamic Scoring</div>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>Base correctness + speed and memory bonuses</div>
-            </div>
           </div>
         </div>
       </div>

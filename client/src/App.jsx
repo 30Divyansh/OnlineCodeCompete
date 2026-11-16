@@ -4,6 +4,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { UserProvider, useUser } from './context/UserContext';
 import { SocketProvider } from './context/SocketContext';
 import Navbar from './components/Navbar';
+import ChallengeModal from './components/ChallengeModal';
 import Home from './pages/Home';
 import Matchmaking from './pages/Matchmaking';
 import Workspace from './pages/Workspace';
@@ -12,6 +13,7 @@ import ProblemLibrary from './pages/ProblemLibrary';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
 import CompetitionsHistory from './pages/CompetitionsHistory';
+import LiveCompetition from './pages/LiveCompetition';
 
 function ProfileRedirect() {
   const { currentUser } = useUser();
@@ -26,8 +28,11 @@ export default function App() {
           <BrowserRouter>
             <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
               <Navbar />
+              <ChallengeModal />
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/live" element={<LiveCompetition />} />
+                <Route path="/find-opponent" element={<LiveCompetition />} />
                 <Route path="/competitions" element={<CompetitionsHistory />} />
                 <Route path="/matchmaking/:roomCode" element={<Matchmaking />} />
                 <Route path="/workspace/:roomCode" element={<Workspace />} />
