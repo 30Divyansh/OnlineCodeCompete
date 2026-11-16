@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { useUser } from '../context/UserContext';
@@ -6,40 +6,28 @@ import {
   Swords, 
   Sun, 
   Moon, 
-  Code2, 
-  Trophy, 
-  User, 
   Flame, 
-  Layers, 
-  ChevronDown,
-  UserCheck,
-  Users
+  Users,
+  LogOut,
+  Edit2
 } from 'lucide-react';
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
-  const { currentUser, switchUser, DEFAULT_USERS } = useUser();
+  const { currentUser, changeName } = useUser();
   const location = useLocation();
   const navigate = useNavigate();
-  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { 
-      name: 'Live Players', 
-      path: '/live',
-      badge: true 
-    },
+    { name: 'Live Players', path: '/live', badge: true },
     { name: 'Competitions', path: '/competitions' },
     { name: 'Problem Library', path: '/problems' },
-    { name: 'Leaderboard', path: '/leaderboard' },
-    { name: 'Profile', path: `/profile/${currentUser.id}` }
+    { name: 'Leaderboard', path: '/leaderboard' }
   ];
 
-  const handleStartDuel = () => {
-    const randomCode = 'DUEL-' + Math.floor(1000 + Math.random() * 9000);
-    navigate(`/matchmaking/${randomCode}`);
-  };
+  if (currentUser) {
+    navLinks.push({ name: 'My Profile', path: `/profile/${currentUser.id}` });
+  }
 
   return (
     <nav style={{
@@ -63,7 +51,7 @@ export default function Navbar() {
       }}>
         {/* Brand / Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none' }}>
+          <Link to="/live" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none' }}>
             <div style={{
               background: 'linear-gradient(135deg, #f59e0b, #d97706)',
               color: '#ffffff',
@@ -123,18 +111,8 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Right Actions: Quick Duel Button, Theme Toggle, Active Player Selector */}
+        {/* Right Actions: Dark/Light Mode, Player Session Status */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-          {/* Quick Duel Button */}
-          <button
-            onClick={handleStartDuel}
-            className="btn btn-primary btn-sm"
-            style={{ fontWeight: 600 }}
-          >
-            <Flame size={16} />
-            New Duel
-          </button>
-
           {/* Dark / Light Mode Toggle */}
           <button
             onClick={toggleTheme}
@@ -153,84 +131,54 @@ export default function Navbar() {
             {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>
 
-          {/* Active User Switcher */}
-          <div style={{ position: 'relative' }}>
-            <button
-              onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.3rem 0.6rem',
-                borderRadius: '6px',
-                border: '1px solid var(--border-color)',
-                background: 'var(--bg-tertiary)',
-                color: 'var(--text-primary)',
-                fontSize: '0.825rem'
-              }}
-            >
-              <img
-                src={currentUser.avatar}
-                alt={currentUser.username}
-                style={{ width: '22px', height: '22px', borderRadius: '50%' }}
-              />
-              <span style={{ fontWeight: 600 }}>{currentUser.username}</span>
-              <span style={{ color: 'var(--accent-primary)', fontSize: '0.75rem', fontWeight: 600 }}>
-                {currentUser.rating}
-              </span>
-              <ChevronDown size={14} color="var(--text-muted)" />
-            </button>
-
-            {userDropdownOpen && (
-              <div
-                style={{
+          {/* Player Identity Badge */}
+          {currentUser ? (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.6rem',
+              padding: '0.3rem 0.65rem',
+              borderRadius: '6px',
+              border: '1px solid var(--border-color)',
+              background: 'var(--bg-tertiary)'
+            }}>
+              <div style={{ position: 'relative' }}>
+                <img
+                  src={currentUser.avatar}
+                  alt={currentUser.username}
+                  style={{ width: '24px', height: '24px', borderRadius: '50%' }}
+                />
+                <span style={{
                   position: 'absolute',
-                  right: 0,
-                  top: '120%',
-                  width: '240px',
-                  backgroundColor: 'var(--bg-secondary)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '8px',
-                  boxShadow: 'var(--shadow-lg)',
-                  padding: '0.5rem',
-                  zIndex: 100
+                  bottom: -1,
+                  right: -1,
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  background: '#10b981'
+                }} />
+              </div>
+              <span style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--text-primary)' }}>
+                {currentUser.username}
+              </span>
+              <button
+                onClick={changeName}
+                title="Change username"
+                style={{
+                  color: 'var(--text-muted)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginLeft: '0.2rem'
                 }}
               >
-                <div style={{ padding: '0.4rem 0.6rem', fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-                  SWITCH ACTIVE PLAYER
-                </div>
-                {DEFAULT_USERS.map(u => (
-                  <button
-                    key={u.id}
-                    onClick={() => {
-                      switchUser(u);
-                      setUserDropdownOpen(false);
-                    }}
-                    style={{
-                      width: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '0.45rem 0.6rem',
-                      borderRadius: '5px',
-                      background: currentUser.id === u.id ? 'var(--bg-tertiary)' : 'transparent',
-                      color: 'var(--text-primary)',
-                      fontSize: '0.85rem'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <img src={u.avatar} alt={u.username} style={{ width: '20px', height: '20px', borderRadius: '50%' }} />
-                      <div style={{ textAlign: 'left' }}>
-                        <div style={{ fontWeight: 600 }}>{u.username}</div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{u.displayName}</div>
-                      </div>
-                    </div>
-                    {currentUser.id === u.id && <UserCheck size={16} color="var(--accent-primary)" />}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+                <Edit2 size={13} />
+              </button>
+            </div>
+          ) : (
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+              Entering name...
+            </span>
+          )}
         </div>
       </div>
     </nav>

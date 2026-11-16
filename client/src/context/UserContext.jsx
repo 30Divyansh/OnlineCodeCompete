@@ -1,72 +1,88 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useSocket } from './SocketContext';
 
 const UserContext = createContext();
 
-export const DEFAULT_USERS = [
-  {
-    id: 'user_alex',
-    username: 'AlexCode',
-    displayName: 'Alex Rivers',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=AlexCode',
-    rating: 1740
-  },
-  {
-    id: 'user_sarah',
-    username: 'SarahDev',
-    displayName: 'Sarah Chen',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=SarahDev',
-    rating: 1680
-  },
-  {
-    id: 'user_marcus',
-    username: 'MarcusB',
-    displayName: 'Marcus Bell',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=MarcusB',
-    rating: 1820
-  }
-];
-
 export function UserProvider({ children }) {
+  const { socket } = useSocket();
+
   const [currentUser, setCurrentUser] = useState(() => {
-    // If URL has ?user=sarah or ?player=2, pick SarahDev
+    // Check URL param first (e.g. ?name=Rahul or ?player=Rahul for easy multi-tab testing)
     const params = new URLSearchParams(window.location.search);
-    const userParam = params.get('user') || params.get('player');
-    if (userParam === 'sarah' || userParam === '2' || userParam === 'sarahdev') {
-      return DEFAULT_USERS[1];
+    const nameParam = params.get('name') || params.get('user') || params.get('player');
+    if (nameParam && nameParam.trim()) {
+      const clean = nameParam.trim();
+      const pId = 'p_' + clean.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const userObj = {
+        id: pId,
+        username: clean,
+        displayName: clean,
+        avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(clean)}`,
+        rating: 1500,
+        competitions: 0,
+        wins: 0,
+        losses: 0,
+        winRate: 0,
+        totalPoints: 0
+      };
+      sessionStorage.setItem('codeduel_player', JSON.stringify(userObj));
+      return userObj;
     }
-    const saved = localStorage.getItem('codeduel-active-user');
+
+    // Check sessionStorage or localStorage
+    const saved = sessionStorage.getItem('codeduel_player') || localStorage.getItem('codeduel_player');
     if (saved) {
       try {
         return JSON.parse(saved);
       } catch (e) {}
     }
-    return DEFAULT_USERS[0];
+    return null; // Null means welcome screen will prompt for name
   });
 
+  // Automatically register on socket when socket connects or user changes
   useEffect(() => {
-    localStorage.setItem('codeduel-active-user', JSON.stringify(currentUser));
-  }, [currentUser]);
+    if (socket && currentUser) {
+      socket.emit('player:join', currentUser);
+    }
+  }, [socket, currentUser]);
 
-  const switchUser = (user) => {
-    setCurrentUser(user);
-  };
-
-  const createCustomUser = (username) => {
-    if (!username.trim()) return;
-    const clean = username.trim();
-    const newUser = {
-      id: 'user_' + clean.toLowerCase().replace(/[^a-z0-9]/g, ''),
+  const joinCompetition = (enteredName) => {
+    if (!enteredName || !enteredName.trim()) return null;
+    const clean = enteredName.trim();
+    // Unique ID for this browser session
+    const uniqueId = 'p_' + Date.now().toString(36) + Math.random().toString(36).substring(2, 6);
+    const userObj = {
+      id: uniqueId,
       username: clean,
       displayName: clean,
-      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${clean}`,
-      rating: 1500
+      avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(clean)}`,
+      rating: 1500,
+      competitions: 0,
+      wins: 0,
+      losses: 0,
+      winRate: 0,
+      totalPoints: 0
     };
-    setCurrentUser(newUser);
-    return newUser;
+
+    sessionStorage.setItem('codeduel_player', JSON.stringify(userObj));
+    localStorage.setItem('codeduel_player', JSON.stringify(userObj));
+    setCurrentUser(userObj);
+
+    if (socket) {
+      socket.emit('player:join', userObj);
+    }
+
+    return userObj;
+  };
+
+  const changeName = () => {
+    sessionStorage.removeItem('codeduel_player');
+    localStorage.removeItem('codeduel_player');
+    setCurrentUser(null);
   };
 
   return (
-    <UserContext.Provider value={{ currentUser, switchUser, createCustomUser, DEFAULT_USERS }}>
+    <UserContext.Provider value={{ currentUser, joinCompetition, changeName }}>
       {children}
     </UserContext.Provider>
   );

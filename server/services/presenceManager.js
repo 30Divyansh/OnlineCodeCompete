@@ -1,212 +1,223 @@
 const { v4: uuidv4 } = require('uuid');
 const dbStore = require('./dbStore');
 
-// Map of userId -> { socketId, user, status: 'available'|'in_competition'|'away', roomCode: null, connectedAt }
-const onlineUsers = new Map();
+// Map of playerId -> { socketId, playerId, username, avatar, rating, competitions, wins, losses, winRate, totalPoints, avgScore, status: 'ONLINE' | 'IN COMPETITION', currentRoom, lastActive }
+const onlinePlayers = new Map();
 
-// Map of socketId -> userId
-const socketUserMap = new Map();
+// Map of socketId -> playerId
+const socketPlayerMap = new Map();
 
-// Map of inviteId -> { id, fromUser, toUserId, toUser, createdAt, expiresAt, status: 'pending'|'accepted'|'declined'|'expired' }
-const activeInvitations = new Map();
+// Map of inviteId -> { id, fromPlayer, toPlayerId, toPlayer, problemId, problemTitle, difficulty, createdAt, expiresAt, status: 'pending'|'accepted'|'declined'|'expired' }
+const activeChallenges = new Map();
 
-// Initial bot/demo users who are part of the platform's simulated live ecosystem
-const simulatedOnlineUsers = [
-  {
-    id: 'user_marcus',
-    username: 'MarcusB',
-    displayName: 'Marcus Bell',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=MarcusB',
-    rating: 1820,
-    competitions: 34,
-    wins: 25,
-    losses: 9,
-    winRate: 73.5,
-    totalPoints: 3120,
-    status: 'available',
-    isBot: true
-  },
-  {
-    id: 'user_elena',
-    username: 'ElenaR',
-    displayName: 'Elena Rostova',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=ElenaR',
-    rating: 1590,
-    competitions: 18,
-    wins: 11,
-    losses: 7,
-    winRate: 61.1,
-    totalPoints: 1540,
-    status: 'in_competition',
-    isBot: true
-  },
-  {
-    id: 'user_zenith',
-    username: 'ZenithCoder',
-    displayName: 'Zenith Master',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=ZenithCoder',
-    rating: 1950,
-    competitions: 52,
-    wins: 41,
-    losses: 11,
-    winRate: 78.8,
-    totalPoints: 4680,
-    status: 'available',
-    isBot: true
+/**
+ * Register or update player connection
+ */
+function registerPlayer(socketId, playerData) {
+  if (!playerData || !playerData.id || !playerData.username) return null;
+
+  const playerId = playerData.id;
+  const username = playerData.username.trim();
+
+  // Look up existing stats in dbStore or create
+  let userRecord = dbStore.findOne('users', u => u.id === playerId);
+  if (!userRecord) {
+    userRecord = {
+      id: playerId,
+      username,
+      displayName: username,
+      avatar: playerData.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(username)}`,
+      rating: 1500,
+      competitions: 0,
+      wins: 0,
+      losses: 0,
+      winRate: 0,
+      totalPoints: 0,
+      avgScore: 0,
+      solvedProblems: [],
+      createdAt: new Date().toISOString()
+    };
+    dbStore.insert('users', userRecord);
+  } else if (userRecord.username !== username) {
+    // Update username if changed
+    dbStore.update('users', u => u.id === playerId, u => ({ ...u, username, displayName: username }));
+    userRecord.username = username;
   }
-];
 
-function registerUser(socketId, user) {
-  if (!user || !user.id) return;
+  const existingSession = onlinePlayers.get(playerId);
+  const currentStatus = existingSession?.status === 'IN COMPETITION' ? 'IN COMPETITION' : 'ONLINE';
+  const currentRoom = existingSession?.currentRoom || null;
 
-  const existing = onlineUsers.get(user.id);
-  const currentStatus = existing ? existing.status : 'available';
-  const currentRoom = existing ? existing.roomCode : null;
-
-  const userEntry = {
+  const playerObj = {
     socketId,
-    user: {
-      id: user.id,
-      username: user.username,
-      displayName: user.displayName || user.username,
-      avatar: user.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${user.username}`,
-      rating: user.rating || 1500,
-      competitions: user.competitions || 0,
-      wins: user.wins || 0,
-      losses: user.losses || 0,
-      winRate: user.winRate || 0,
-      totalPoints: user.totalPoints || 0
-    },
+    playerId,
+    username: userRecord.username,
+    displayName: userRecord.displayName,
+    avatar: userRecord.avatar,
+    rating: userRecord.rating || 1500,
+    competitions: userRecord.competitions || 0,
+    wins: userRecord.wins || 0,
+    losses: userRecord.losses || 0,
+    winRate: userRecord.winRate || 0,
+    totalPoints: userRecord.totalPoints || 0,
+    avgScore: userRecord.avgScore || 0,
     status: currentStatus,
-    roomCode: currentRoom,
-    isBot: false,
-    connectedAt: new Date().toISOString()
+    currentRoom,
+    lastActive: Date.now()
   };
 
-  onlineUsers.set(user.id, userEntry);
-  socketUserMap.set(socketId, user.id);
+  onlinePlayers.set(playerId, playerObj);
+  socketPlayerMap.set(socketId, playerId);
+
+  return playerObj;
 }
 
+/**
+ * Handle socket disconnection
+ */
 function unregisterSocket(socketId) {
-  const userId = socketUserMap.get(socketId);
-  if (userId) {
-    onlineUsers.delete(userId);
-    socketUserMap.delete(socketId);
-    
-    // Clean up any pending invites sent by or to this user
-    for (const [inviteId, invite] of activeInvitations.entries()) {
-      if (invite.fromUser.id === userId || invite.toUserId === userId) {
-        activeInvitations.delete(inviteId);
+  const playerId = socketPlayerMap.get(socketId);
+  if (playerId) {
+    const player = onlinePlayers.get(playerId);
+    // If the disconnecting socket is this player's active socket
+    if (player && player.socketId === socketId) {
+      onlinePlayers.delete(playerId);
+    }
+    socketPlayerMap.delete(socketId);
+
+    // Cancel any challenges involving this player
+    for (const [inviteId, challenge] of activeChallenges.entries()) {
+      if (challenge.fromPlayer.id === playerId || challenge.toPlayerId === playerId) {
+        challenge.status = 'expired';
+        activeChallenges.delete(inviteId);
       }
     }
   }
+  return playerId;
 }
 
-function setUserStatus(userId, status, roomCode = null) {
-  const entry = onlineUsers.get(userId);
-  if (entry) {
-    entry.status = status;
-    entry.roomCode = roomCode;
+function setPlayerStatus(playerId, status, roomCode = null) {
+  const player = onlinePlayers.get(playerId);
+  if (player) {
+    player.status = status;
+    player.currentRoom = roomCode;
   }
 }
 
-function getOnlineUsersList(currentUserId = null) {
-  const realList = Array.from(onlineUsers.values()).map(e => ({
-    ...e.user,
-    status: e.status,
-    roomCode: e.roomCode,
-    isBot: false
+function getOnlinePlayersList() {
+  // Returns only genuine active online players
+  return Array.from(onlinePlayers.values()).map(p => ({
+    id: p.playerId,
+    username: p.username,
+    displayName: p.displayName,
+    avatar: p.avatar,
+    rating: p.rating,
+    competitions: p.competitions,
+    wins: p.wins,
+    losses: p.losses,
+    winRate: p.winRate,
+    totalPoints: p.totalPoints,
+    avgScore: p.avgScore,
+    status: p.status,
+    currentRoom: p.currentRoom
   }));
-
-  // Merge with simulated live ecosystem (filter out duplicates if user logged in as that user)
-  const realUserIds = new Set(realList.map(u => u.id));
-  const simList = simulatedOnlineUsers.filter(s => !realUserIds.has(s.id));
-
-  return [...realList, ...simList];
 }
 
 function getLobbyStats() {
-  const allUsers = getOnlineUsersList();
-  const playersOnline = allUsers.length;
-  const playersAvailable = allUsers.filter(u => u.status === 'available').length;
-  
-  // Count active battles from rooms
-  const competitions = dbStore.find('competitions');
-  const activeBattles = competitions.filter(c => c.status === 'in_progress').length;
+  const players = getOnlinePlayersList();
+  const playersOnline = players.length;
+  const availablePlayers = players.filter(p => p.status === 'ONLINE').length;
+  const playersCompeting = players.filter(p => p.status === 'IN COMPETITION').length;
 
   return {
     playersOnline,
-    playersAvailable,
-    activeBattles: Math.max(activeBattles, 1) // realistic display
+    availablePlayers,
+    playersCompeting
   };
 }
 
-function createChallenge(fromUser, toUserId) {
-  // Validate
-  if (fromUser.id === toUserId) {
+function createDirectChallenge(fromPlayerId, toPlayerId, problemId) {
+  if (fromPlayerId === toPlayerId) {
     return { success: false, message: 'You cannot challenge yourself.' };
   }
 
-  const allUsers = getOnlineUsersList();
-  const target = allUsers.find(u => u.id === toUserId);
-  if (!target) {
-    return { success: false, message: 'Player is not online.' };
+  const fromPlayer = onlinePlayers.get(fromPlayerId);
+  if (!fromPlayer) {
+    return { success: false, message: 'You must be online to send a challenge.' };
   }
 
-  if (target.status !== 'available') {
-    return { success: false, message: `Player is currently ${target.status === 'in_competition' ? 'In Competition' : 'Unavailable'}.` };
+  const toPlayer = onlinePlayers.get(toPlayerId);
+  if (!toPlayer) {
+    return { success: false, message: 'Opponent is no longer online.' };
   }
 
-  // Check if invitation already pending between these two
-  for (const inv of activeInvitations.values()) {
-    if (inv.fromUser.id === fromUser.id && inv.toUserId === toUserId && inv.status === 'pending') {
-      return { success: false, message: 'Challenge invitation already pending for this player.' };
+  if (toPlayer.status !== 'ONLINE') {
+    return { success: false, message: `${toPlayer.username} is currently in a competition.` };
+  }
+
+  // Find problem details from dbStore
+  const problems = dbStore.find('problems');
+  const problem = problems.find(p => p.id === problemId);
+  if (!problem) {
+    return { success: false, message: 'Selected problem not found in library.' };
+  }
+
+  // Prevent duplicate pending challenge
+  for (const c of activeChallenges.values()) {
+    if (c.fromPlayer.id === fromPlayerId && c.toPlayerId === toPlayerId && c.status === 'pending') {
+      return { success: false, message: 'A challenge is already pending for this player.' };
     }
   }
 
-  const inviteId = 'inv_' + uuidv4().substring(0, 8);
-  const invite = {
+  const inviteId = 'ch_' + uuidv4().substring(0, 8);
+  const challenge = {
     id: inviteId,
-    fromUser: {
-      id: fromUser.id,
-      username: fromUser.username,
-      displayName: fromUser.displayName,
-      avatar: fromUser.avatar,
-      rating: fromUser.rating,
-      winRate: fromUser.winRate
+    fromPlayer: {
+      id: fromPlayer.playerId,
+      username: fromPlayer.username,
+      avatar: fromPlayer.avatar,
+      rating: fromPlayer.rating,
+      winRate: fromPlayer.winRate
     },
-    toUserId,
-    toUser: target,
+    toPlayerId,
+    toPlayer: {
+      id: toPlayer.playerId,
+      username: toPlayer.username
+    },
+    problemId: problem.id,
+    problemTitle: problem.title,
+    difficulty: problem.difficulty,
+    category: problem.category,
     createdAt: Date.now(),
-    expiresAt: Date.now() + 30000, // 30 second countdown
+    expiresAt: Date.now() + 30000,
     status: 'pending'
   };
 
-  activeInvitations.set(inviteId, invite);
-  return { success: true, invite };
+  activeChallenges.set(inviteId, challenge);
+  return { success: true, challenge, toPlayerSocketId: toPlayer.socketId };
 }
 
-function getInvitation(inviteId) {
-  return activeInvitations.get(inviteId) || null;
+function getChallenge(inviteId) {
+  return activeChallenges.get(inviteId) || null;
 }
 
-function resolveInvitation(inviteId, status) {
-  const inv = activeInvitations.get(inviteId);
-  if (inv) {
-    inv.status = status;
-    activeInvitations.delete(inviteId);
+function resolveChallenge(inviteId, status) {
+  const challenge = activeChallenges.get(inviteId);
+  if (challenge) {
+    challenge.status = status;
+    activeChallenges.delete(inviteId);
   }
-  return inv;
+  return challenge;
 }
 
 module.exports = {
-  onlineUsers,
-  registerUser,
+  onlinePlayers,
+  registerPlayer,
   unregisterSocket,
-  setUserStatus,
-  getOnlineUsersList,
+  setPlayerStatus,
+  getOnlinePlayersList,
   getLobbyStats,
-  createChallenge,
-  getInvitation,
-  resolveInvitation
+  createDirectChallenge,
+  getChallenge,
+  resolveChallenge
 };

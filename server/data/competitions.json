@@ -852,5 +852,73 @@
       }
     ],
     "createdAt": "2026-11-16T13:38:08.233Z"
+  },
+  {
+    "id": "84a131f7-0582-48e7-8eb1-92fcac421e65",
+    "roomCode": "DUEL-6204",
+    "status": "selection",
+    "problemId": null,
+    "durationSeconds": 900,
+    "startedAt": null,
+    "endedAt": null,
+    "player1": {
+      "userId": "user_sarah",
+      "username": "SarahDev",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=SarahDev",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": null
+    },
+    "player2": {
+      "userId": "user_marcus",
+      "username": "MarcusB",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=MarcusB",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 0,
+      "executionTimeMs": 0,
+      "memoryKb": 0,
+      "submissionCount": 0,
+      "verdict": "Selecting",
+      "ready": false,
+      "selectedProblemId": "kadanes-algorithm"
+    },
+    "winnerUserId": null,
+    "winnerUsername": null,
+    "tie": false,
+    "tieBreakerReason": "",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T13:47:47.641Z",
+        "username": "SarahDev",
+        "message": "SarahDev entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:48:08.274Z",
+        "username": "SarahDev",
+        "message": "SarahDev entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:48:13.339Z",
+        "username": "MarcusB",
+        "message": "MarcusB entered the room.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T13:48:17.935Z",
+        "username": "MarcusB",
+        "message": "MarcusB selected \"Kadane's Algorithm – Maximum Subarray Sum\".",
+        "type": "info"
+      }
+    ],
+    "createdAt": "2026-11-16T13:47:47.638Z"
   }
 ]

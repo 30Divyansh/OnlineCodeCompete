@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
-import { Swords, Clock, Check, X, Trophy } from 'lucide-react';
+import { Swords, Clock, Check, X, Award } from 'lucide-react';
 
 export default function ChallengeModal() {
   const { socket } = useSocket();
@@ -19,23 +19,25 @@ export default function ChallengeModal() {
 
     const handleChallengeAccepted = ({ roomCode }) => {
       setIncomingInvite(null);
-      navigate(`/matchmaking/${roomCode}`);
+      navigate(`/workspace/${roomCode}`);
     };
 
-    const handleChallengeCancelled = () => {
-      setIncomingInvite(null);
+    const handleChallengeExpired = ({ inviteId }) => {
+      if (incomingInvite && incomingInvite.inviteId === inviteId) {
+        setIncomingInvite(null);
+      }
     };
 
-    socket.on('challenge_received', handleChallengeReceived);
-    socket.on('challenge_accepted', handleChallengeAccepted);
-    socket.on('challenge_cancelled', handleChallengeCancelled);
+    socket.on('challenge:received', handleChallengeReceived);
+    socket.on('challenge:accepted', handleChallengeAccepted);
+    socket.on('challenge:expired', handleChallengeExpired);
 
     return () => {
-      socket.off('challenge_received', handleChallengeReceived);
-      socket.off('challenge_accepted', handleChallengeAccepted);
-      socket.off('challenge_cancelled', handleChallengeCancelled);
+      socket.off('challenge:received', handleChallengeReceived);
+      socket.off('challenge:accepted', handleChallengeAccepted);
+      socket.off('challenge:expired', handleChallengeExpired);
     };
-  }, [socket, navigate]);
+  }, [socket, incomingInvite, navigate]);
 
   // 30s Countdown timer for invitation
   useEffect(() => {
@@ -57,24 +59,22 @@ export default function ChallengeModal() {
 
   if (!incomingInvite) return null;
 
-  const { challenger, inviteId } = incomingInvite;
+  const { challenger, inviteId, problemTitle, difficulty, category } = incomingInvite;
 
   const handleAccept = () => {
     if (!socket) return;
-    socket.emit('respond_challenge', {
-      inviteId,
-      accept: true
-    });
+    socket.emit('challenge:accept', { inviteId });
   };
 
   const handleDecline = () => {
     if (!socket) return;
-    socket.emit('respond_challenge', {
-      inviteId,
-      accept: false
-    });
+    socket.emit('challenge:decline', { inviteId });
     setIncomingInvite(null);
   };
+
+  let diffBadge = 'badge-easy';
+  if (difficulty === 'Medium') diffBadge = 'badge-medium';
+  if (difficulty === 'Hard') diffBadge = 'badge-hard';
 
   return (
     <div style={{
@@ -87,7 +87,7 @@ export default function ChallengeModal() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      zIndex: 9999,
+      zIndex: 99999,
       padding: '1rem',
       animation: 'fadeIn 0.2s ease-out'
     }}>
@@ -96,7 +96,7 @@ export default function ChallengeModal() {
         border: '2px solid var(--accent-primary)',
         borderRadius: '12px',
         width: '100%',
-        maxWidth: '440px',
+        maxWidth: '460px',
         padding: '1.75rem',
         boxShadow: 'var(--shadow-lg)',
         textAlign: 'center',
@@ -117,39 +117,58 @@ export default function ChallengeModal() {
           <Swords size={28} />
         </div>
 
-        {/* Header */}
-        <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.35rem', color: 'var(--text-primary)' }}>
-          Incoming Duel Challenge!
+        {/* Heading */}
+        <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.35rem', color: 'var(--text-primary)' }}>
+          NEW CODING CHALLENGE!
         </h3>
 
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
-          You have been challenged to a live head-to-head coding competition.
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.25rem' }}>
+          <strong>{challenger?.username}</strong> wants to compete with you.
         </p>
 
-        {/* Challenger Card */}
+        {/* Challenge Problem Details Card */}
         <div style={{
           background: 'var(--bg-tertiary)',
           border: '1px solid var(--border-color)',
           borderRadius: '8px',
-          padding: '0.85rem 1rem',
+          padding: '1rem',
+          marginBottom: '1.25rem',
+          textAlign: 'left'
+        }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 600 }}>
+            SELECTED PROBLEM
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+            <div style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>
+              {problemTitle}
+            </div>
+            <span className={`badge ${diffBadge}`}>{difficulty}</span>
+          </div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+            Category: {category}
+          </div>
+        </div>
+
+        {/* Challenger Card */}
+        <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '0.85rem',
+          gap: '0.65rem',
           marginBottom: '1.25rem',
+          background: 'var(--bg-primary)',
+          padding: '0.6rem 0.85rem',
+          borderRadius: '6px',
+          border: '1px solid var(--border-color)',
           textAlign: 'left'
         }}>
           <img
             src={challenger?.avatar}
             alt={challenger?.username}
-            style={{ width: '44px', height: '44px', borderRadius: '50%', border: '2px solid var(--accent-primary)' }}
+            style={{ width: '32px', height: '32px', borderRadius: '50%' }}
           />
-          <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-primary)' }}>
-              {challenger?.username}
-            </div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-              Rating: <strong style={{ color: 'var(--accent-primary)' }}>{challenger?.rating || 1500}</strong> • Win Rate: <strong>{challenger?.winRate || 0}%</strong>
-            </div>
+          <div>
+            <div style={{ fontWeight: 600, fontSize: '0.85rem' }}>Challenger: {challenger?.username}</div>
+            <div style={{ fontSize: '0.725rem', color: 'var(--text-muted)' }}>Rating: {challenger?.rating || 1500}</div>
           </div>
         </div>
 
@@ -177,7 +196,7 @@ export default function ChallengeModal() {
             style={{ fontWeight: 600 }}
           >
             <X size={16} />
-            Decline
+            DECLINE
           </button>
           <button
             onClick={handleAccept}
@@ -185,7 +204,7 @@ export default function ChallengeModal() {
             style={{ fontWeight: 700 }}
           >
             <Check size={16} />
-            Accept Challenge
+            ACCEPT CHALLENGE
           </button>
         </div>
       </div>

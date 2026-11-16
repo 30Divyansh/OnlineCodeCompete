@@ -4,6 +4,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { UserProvider, useUser } from './context/UserContext';
 import { SocketProvider } from './context/SocketContext';
 import Navbar from './components/Navbar';
+import WelcomeScreen from './components/WelcomeScreen';
 import ChallengeModal from './components/ChallengeModal';
 import Home from './pages/Home';
 import Matchmaking from './pages/Matchmaking';
@@ -15,38 +16,44 @@ import Profile from './pages/Profile';
 import CompetitionsHistory from './pages/CompetitionsHistory';
 import LiveCompetition from './pages/LiveCompetition';
 
-function ProfileRedirect() {
+function MainApp() {
   const { currentUser } = useUser();
-  return <Navigate to={`/profile/${currentUser.id}`} replace />;
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {/* If player has not entered their name yet, show the Welcome Screen */}
+      {!currentUser && <WelcomeScreen />}
+
+      <Navbar />
+      <ChallengeModal />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/live" element={<LiveCompetition />} />
+        <Route path="/find-opponent" element={<LiveCompetition />} />
+        <Route path="/competitions" element={<CompetitionsHistory />} />
+        <Route path="/matchmaking/:roomCode" element={<Matchmaking />} />
+        <Route path="/workspace/:roomCode" element={<Workspace />} />
+        <Route path="/results/:roomCode" element={<Results />} />
+        <Route path="/problems" element={<ProblemLibrary />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/profile/:id" element={<Profile />} />
+        <Route path="*" element={<Navigate to="/live" replace />} />
+      </Routes>
+    </div>
+  );
 }
 
 export default function App() {
   return (
     <ThemeProvider>
-      <UserProvider>
-        <SocketProvider>
+      <SocketProvider>
+        <UserProvider>
           <BrowserRouter>
-            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-              <Navbar />
-              <ChallengeModal />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/live" element={<LiveCompetition />} />
-                <Route path="/find-opponent" element={<LiveCompetition />} />
-                <Route path="/competitions" element={<CompetitionsHistory />} />
-                <Route path="/matchmaking/:roomCode" element={<Matchmaking />} />
-                <Route path="/workspace/:roomCode" element={<Workspace />} />
-                <Route path="/results/:roomCode" element={<Results />} />
-                <Route path="/problems" element={<ProblemLibrary />} />
-                <Route path="/leaderboard" element={<Leaderboard />} />
-                <Route path="/profile" element={<ProfileRedirect />} />
-                <Route path="/profile/:id" element={<Profile />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </div>
+            <MainApp />
           </BrowserRouter>
-        </SocketProvider>
-      </UserProvider>
+        </UserProvider>
+      </SocketProvider>
     </ThemeProvider>
   );
 }
