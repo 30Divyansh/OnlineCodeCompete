@@ -920,5 +920,126 @@
       }
     ],
     "createdAt": "2026-11-16T13:47:47.638Z"
+  },
+  {
+    "id": "c1d3df97-ae98-407a-99b2-8b6ffc8f8982",
+    "roomCode": "DUEL-6372",
+    "status": "completed",
+    "problemId": "coin-change",
+    "durationSeconds": 900,
+    "startedAt": "2026-11-16T14:00:13.552Z",
+    "endedAt": "2026-11-16T14:03:13.741Z",
+    "player1": {
+      "userId": "p_mwjbx3z9w76j",
+      "username": "dev",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=dev",
+      "score": 125,
+      "passedTestCases": 6,
+      "totalTestCases": 6,
+      "executionTimeMs": 17.94,
+      "memoryKb": 49.02,
+      "submissionCount": 3,
+      "verdict": "Accepted",
+      "ready": true,
+      "selectedProblemId": "coin-change"
+    },
+    "player2": {
+      "userId": "p_mwjbxrzs1kny",
+      "username": "rahul",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=rahul",
+      "score": 0,
+      "passedTestCases": 0,
+      "totalTestCases": 6,
+      "executionTimeMs": 0,
+      "memoryKb": 0.39,
+      "submissionCount": 1,
+      "verdict": "Wrong Answer",
+      "ready": true,
+      "selectedProblemId": "coin-change"
+    },
+    "winnerUserId": "p_mwjbx3z9w76j",
+    "winnerUsername": "dev",
+    "tie": false,
+    "tieBreakerReason": "dev scored higher (125 vs 0 pts)",
+    "activityFeed": [
+      {
+        "timestamp": "2026-11-16T14:00:13.552Z",
+        "username": "System",
+        "message": "Battle started! Both players are solving: Coin Change",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T14:00:51.307Z",
+        "username": "rahul",
+        "message": "rahul tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T14:01:07.417Z",
+        "username": "rahul",
+        "message": "rahul tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T14:01:09.182Z",
+        "username": "rahul",
+        "message": "rahul tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T14:01:34.525Z",
+        "username": "dev",
+        "message": "dev tested their solution against sample testcases.",
+        "type": "info"
+      },
+      {
+        "timestamp": "2026-11-16T14:01:37.650Z",
+        "username": "dev",
+        "message": "dev submitted: Accepted (6/6 passed, +125 pts)",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T14:02:57.203Z",
+        "username": "dev",
+        "message": "dev submitted: Accepted (6/6 passed, +123 pts)",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T14:03:01.279Z",
+        "username": "rahul",
+        "message": "rahul submitted: Wrong Answer (0/6 passed, +0 pts)",
+        "type": "warning"
+      },
+      {
+        "timestamp": "2026-11-16T14:03:09.826Z",
+        "username": "dev",
+        "message": "dev submitted: Accepted (6/6 passed, +121 pts)",
+        "type": "success"
+      },
+      {
+        "timestamp": "2026-11-16T14:03:13.741Z",
+        "username": "System",
+        "message": "Competition concluded! dev scored higher (125 vs 0 pts)",
+        "type": "success"
+      }
+    ],
+    "createdAt": "2026-11-16T14:00:13.550Z"
+  },
+  {
+    "id": "735e2218-53c3-411c-b6d7-53776120b50f",
+    "roomCode": "DUEL-4521",
+    "status": "selection",
+    "problemId": null,
+    "durationSeconds": 900,
+    "startedAt": null,
+    "endedAt": null,
+    "player1": null,
+    "player2": null,
+    "winnerUserId": null,
+    "winnerUsername": null,
+    "tie": false,
+    "tieBreakerReason": "",
+    "activityFeed": [],
+    "createdAt": "2026-11-16T14:03:28.209Z"
   }
 ]

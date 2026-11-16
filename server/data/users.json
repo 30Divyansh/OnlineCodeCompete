@@ -1,1 +1,49 @@
-[]
+[
+  {
+    "id": "p_mwjbx3z9w76j",
+    "username": "dev",
+    "displayName": "dev",
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=dev",
+    "rating": 1525,
+    "competitions": 1,
+    "wins": 1,
+    "losses": 0,
+    "winRate": 100,
+    "totalPoints": 125,
+    "avgScore": 125,
+    "solvedProblems": [
+      "coin-change"
+    ],
+    "createdAt": "2026-11-16T13:58:42.792Z"
+  },
+  {
+    "id": "p_mwjbxrzs1kny",
+    "username": "rahul",
+    "displayName": "rahul",
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=rahul",
+    "rating": 1485,
+    "competitions": 1,
+    "wins": 0,
+    "losses": 1,
+    "winRate": 0,
+    "totalPoints": 0,
+    "avgScore": 0,
+    "solvedProblems": [],
+    "createdAt": "2026-11-16T13:59:13.915Z"
+  },
+  {
+    "id": "p_mwjbydbs4528",
+    "username": "tarun",
+    "displayName": "tarun",
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=tarun",
+    "rating": 1500,
+    "competitions": 0,
+    "wins": 0,
+    "losses": 0,
+    "winRate": 0,
+    "totalPoints": 0,
+    "avgScore": 0,
+    "solvedProblems": [],
+    "createdAt": "2026-11-16T13:59:41.564Z"
+  }
+]

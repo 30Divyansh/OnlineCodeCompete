@@ -377,5 +377,384 @@
       }
     ],
     "createdAt": "2026-11-16T13:19:23.745Z"
+  },
+  {
+    "id": "fdfeda28-8f93-4957-a9e4-48251f4af057",
+    "competitionId": "DUEL-6372",
+    "problemId": "coin-change",
+    "problemTitle": "Coin Change",
+    "userId": "p_mwjbx3z9w76j",
+    "username": "dev",
+    "code": "def coinChange(coins: list[int], amount: int) -> int:\n    dp = [amount + 1] * (amount + 1)\n\n    dp[0] = 0\n\n    for i in range(1, amount + 1):\n        for j in range(len(coins)):\n\n            if coins[j] <= i:\n                dp[i] = min(dp[i], 1 + dp[i - coins[j]])\n\n    if dp[amount] == amount + 1:\n        return -1\n\n    return dp[amount]",
+    "language": "python",
+    "verdict": "Accepted",
+    "passedTestCases": 6,
+    "totalTestCases": 6,
+    "executionTimeMs": 18.57,
+    "memoryKb": 49.02,
+    "score": 125,
+    "scoreBreakdown": {
+      "baseScore": 100,
+      "speedBonus": 15,
+      "memoryBonus": 10,
+      "penalty": 0
+    },
+    "errorMessage": null,
+    "results": [
+      {
+        "testCaseIndex": 1,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0.02,
+        "memoryKb": 0.68,
+        "input": [
+          [
+            1,
+            2,
+            5
+          ],
+          11
+        ],
+        "expected": 3,
+        "actual": 3
+      },
+      {
+        "testCaseIndex": 2,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0.01,
+        "memoryKb": 0.14,
+        "input": [
+          [
+            2
+          ],
+          3
+        ],
+        "expected": -1,
+        "actual": -1
+      },
+      {
+        "testCaseIndex": 3,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.09,
+        "input": [
+          [
+            1
+          ],
+          0
+        ],
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "testCaseIndex": 4,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 18.49,
+        "memoryKb": 49.02
+      },
+      {
+        "testCaseIndex": 5,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0.05,
+        "memoryKb": 0.33
+      },
+      {
+        "testCaseIndex": 6,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.12
+      }
+    ],
+    "createdAt": "2026-11-16T14:01:37.644Z"
+  },
+  {
+    "id": "54f9a8ef-9e2a-4039-8334-ab2aff2f332b",
+    "competitionId": "DUEL-6372",
+    "problemId": "coin-change",
+    "problemTitle": "Coin Change",
+    "userId": "p_mwjbx3z9w76j",
+    "username": "dev",
+    "code": "def coinChange(coins: list[int], amount: int) -> int:\n    dp = [amount + 1] * (amount + 1)\n\n    dp[0] = 0\n\n    for i in range(1, amount + 1):\n        for j in range(len(coins)):\n\n            if coins[j] <= i:\n                dp[i] = min(dp[i], 1 + dp[i - coins[j]])\n\n    if dp[amount] == amount + 1:\n        return -1\n\n    return dp[amount]",
+    "language": "python",
+    "verdict": "Accepted",
+    "passedTestCases": 6,
+    "totalTestCases": 6,
+    "executionTimeMs": 18.17,
+    "memoryKb": 49.02,
+    "score": 123,
+    "scoreBreakdown": {
+      "baseScore": 100,
+      "speedBonus": 15,
+      "memoryBonus": 10,
+      "penalty": 2
+    },
+    "errorMessage": null,
+    "results": [
+      {
+        "testCaseIndex": 1,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0.06,
+        "memoryKb": 0.68,
+        "input": [
+          [
+            1,
+            2,
+            5
+          ],
+          11
+        ],
+        "expected": 3,
+        "actual": 3
+      },
+      {
+        "testCaseIndex": 2,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0.01,
+        "memoryKb": 0.14,
+        "input": [
+          [
+            2
+          ],
+          3
+        ],
+        "expected": -1,
+        "actual": -1
+      },
+      {
+        "testCaseIndex": 3,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0.01,
+        "memoryKb": 0.09,
+        "input": [
+          [
+            1
+          ],
+          0
+        ],
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "testCaseIndex": 4,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 18.04,
+        "memoryKb": 49.02
+      },
+      {
+        "testCaseIndex": 5,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0.05,
+        "memoryKb": 0.33
+      },
+      {
+        "testCaseIndex": 6,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.12
+      }
+    ],
+    "createdAt": "2026-11-16T14:02:57.198Z"
+  },
+  {
+    "id": "3e8182cf-7dd3-470c-97c9-7f41c989bf72",
+    "competitionId": "DUEL-6372",
+    "problemId": "coin-change",
+    "problemTitle": "Coin Change",
+    "userId": "p_mwjbxrzs1kny",
+    "username": "rahul",
+    "code": "def coinChange(coins: list[int], amount: int) -> int:\n    # Write your code here\n    pass\n",
+    "language": "python",
+    "verdict": "Wrong Answer",
+    "passedTestCases": 0,
+    "totalTestCases": 6,
+    "executionTimeMs": 0,
+    "memoryKb": 0.39,
+    "score": 0,
+    "scoreBreakdown": {
+      "baseScore": 0,
+      "speedBonus": 0,
+      "memoryBonus": 0,
+      "penalty": 0
+    },
+    "errorMessage": null,
+    "results": [
+      {
+        "testCaseIndex": 1,
+        "hidden": false,
+        "passed": false,
+        "timeMs": 0,
+        "memoryKb": 0.39,
+        "input": [
+          [
+            1,
+            2,
+            5
+          ],
+          11
+        ],
+        "expected": 3,
+        "actual": null
+      },
+      {
+        "testCaseIndex": 2,
+        "hidden": false,
+        "passed": false,
+        "timeMs": 0,
+        "memoryKb": 0,
+        "input": [
+          [
+            2
+          ],
+          3
+        ],
+        "expected": -1,
+        "actual": null
+      },
+      {
+        "testCaseIndex": 3,
+        "hidden": false,
+        "passed": false,
+        "timeMs": 0,
+        "memoryKb": 0,
+        "input": [
+          [
+            1
+          ],
+          0
+        ],
+        "expected": 0,
+        "actual": null
+      },
+      {
+        "testCaseIndex": 4,
+        "hidden": true,
+        "passed": false,
+        "timeMs": 0,
+        "memoryKb": 0,
+        "message": "Hidden testcase failed"
+      },
+      {
+        "testCaseIndex": 5,
+        "hidden": true,
+        "passed": false,
+        "timeMs": 0,
+        "memoryKb": 0,
+        "message": "Hidden testcase failed"
+      },
+      {
+        "testCaseIndex": 6,
+        "hidden": true,
+        "passed": false,
+        "timeMs": 0,
+        "memoryKb": 0,
+        "message": "Hidden testcase failed"
+      }
+    ],
+    "createdAt": "2026-11-16T14:03:01.272Z"
+  },
+  {
+    "id": "b9d01d5e-da69-4fde-acd7-e374367e5c76",
+    "competitionId": "DUEL-6372",
+    "problemId": "coin-change",
+    "problemTitle": "Coin Change",
+    "userId": "p_mwjbx3z9w76j",
+    "username": "dev",
+    "code": "def coinChange(coins: list[int], amount: int) -> int:\n    dp = [amount + 1] * (amount + 1)\n\n    dp[0] = 0\n\n    for i in range(1, amount + 1):\n        for j in range(len(coins)):\n\n            if coins[j] <= i:\n                dp[i] = min(dp[i], 1 + dp[i - coins[j]])\n\n    if dp[amount] == amount + 1:\n        return -1\n\n    return dp[amount]",
+    "language": "python",
+    "verdict": "Accepted",
+    "passedTestCases": 6,
+    "totalTestCases": 6,
+    "executionTimeMs": 17.94,
+    "memoryKb": 49.02,
+    "score": 121,
+    "scoreBreakdown": {
+      "baseScore": 100,
+      "speedBonus": 15,
+      "memoryBonus": 10,
+      "penalty": 4
+    },
+    "errorMessage": null,
+    "results": [
+      {
+        "testCaseIndex": 1,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0.02,
+        "memoryKb": 0.68,
+        "input": [
+          [
+            1,
+            2,
+            5
+          ],
+          11
+        ],
+        "expected": 3,
+        "actual": 3
+      },
+      {
+        "testCaseIndex": 2,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0.01,
+        "memoryKb": 0.14,
+        "input": [
+          [
+            2
+          ],
+          3
+        ],
+        "expected": -1,
+        "actual": -1
+      },
+      {
+        "testCaseIndex": 3,
+        "hidden": false,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.09,
+        "input": [
+          [
+            1
+          ],
+          0
+        ],
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "testCaseIndex": 4,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 17.85,
+        "memoryKb": 49.02
+      },
+      {
+        "testCaseIndex": 5,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0.06,
+        "memoryKb": 0.33
+      },
+      {
+        "testCaseIndex": 6,
+        "hidden": true,
+        "passed": true,
+        "timeMs": 0,
+        "memoryKb": 0.12
+      }
+    ],
+    "createdAt": "2026-11-16T14:03:09.818Z"
   }
 ]
